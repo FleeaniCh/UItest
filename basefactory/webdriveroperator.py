@@ -26,6 +26,10 @@ class WebdriverOperator:
         self.driver.get_screenshot_as_file(screen_path)
         return screen_path
 
+    def gotosleep(self):
+        time.sleep(30)
+        return True,"等待成功"
+
     def web_implicitly_wait(self, **kwargs):
         """设置隐式等待"""
         try:

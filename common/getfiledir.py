@@ -4,7 +4,7 @@ projectDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))    # �
 # print(projectDir)  # D:\self-Study\code\testUI
 
 CONFDIR = os.path.join(projectDir, 'conf')  # 配置文件路径
-print(CONFDIR)
+# print(CONFDIR)
 
 BASEFACTORYDIR = r'C:\Python\Python39\\'
 
@@ -17,6 +17,7 @@ SCREENSHOTDIR = os.path.join(RESULTDIR, 'screenshot')   # 截图文件路径
 # print(RESULTDIR)
 
 LOGDIR = os.path.join(RESULTDIR,'log')  # 日志文件路径
+# print(LOGDIR)
 
 REPORTDIR = os.path.join(RESULTDIR,'report')    # 报告文件路径
 
