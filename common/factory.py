@@ -49,7 +49,7 @@ common-bai , [{'id': 2, 'result': None, 'keyword': '输入', 'type': 'xpath', 'l
                     case_dict[key] = cases
                     excu_cases.append(case_dict)
         print("--------------初始化用例完成--------------")
-        return excu_cases
+        return excu_cases  # <class 'list'>
 
     def init_common_case(self, cases):
         """
@@ -79,46 +79,48 @@ common-bai , [{'id': 2, 'result': None, 'keyword': '输入', 'type': 'xpath', 'l
             根据方法名获取方法内存地址
         """
         try:
-            function = getattr(self.browser_opr, fucntion_name) # 方法名是否在浏览器操作类中【Python反射】
+            function = getattr(self.browser_opr, fucntion_name)  # 方法名是否在浏览器操作类中【Python反射】
         except Exception:
             try:
-                function = getattr(self.webdriver_opr, fucntion_name)   # 方法名是否在页面操作类中【python反射】
+                function = getattr(self.webdriver_opr, fucntion_name)  # 方法名是否在页面操作类中【python反射】
             except Exception:
                 return False, '未找到注册方法[' + fucntion_name + ']所对应的执行函数，请检查配置文件'
         return True, function
 
-    def execute_keyword(self,**kwargs):
-        """根据用例中的keyword获取方法
+    def execute_keyword(self, **kwargs):
+        """
+            工厂函数：根据用例中的keyword获取方法
             **kwargs：用例数据字典
+            返回keyword对应方法的执行结果
         """
         try:
-            keyword = kwargs['keyword'] # 从excel用例中获取keyword内容
+            keyword = kwargs['keyword']  # 从excel用例中获取keyword内容
             if keyword is None:
                 return False, 'keyword内容为空，请检查用例'
         except KeyError:
-            return False,'没有keyword字段，请检查用例'
+            return False, '没有keyword字段，请检查用例'
 
         # _isbrowser = False
 
         try:
-            function_name = self.con.get('Function',keyword)    # 从配置文件中获取keyword对应的方法名
+            function_name = self.con.get('Function', keyword)  # 从配置文件中获取keyword对应的方法名
             print(function_name)
         except KeyError:
-            return False,'方法Key['+keyword+']未注册'
+            return False, '方法Key[' + keyword + ']未注册'
 
-        isOk, result = self.get_base_fucntion(function_name)    # 返回方法名所对应的内存地址
+        isOk, result = self.get_base_fucntion(function_name)  # 返回方法名所对应的内存地址
         if isOk:
             function = result
         else:
-            return isOk,result
+            return isOk, result
 
-        isOk,result = function(**kwargs)    # 调用function_name所对应的方法
+        isOk, result = function(**kwargs)  # 调用function_name所对应的方法
 
         if '打开网页' == keyword and isOk:
             url = kwargs['locator']
-            self.init_webdriver_opr(result) #此时function_name返回的是driver，此时实例化网页操作类
-            return isOk,'网页['+url+']打开成功'
-        return isOk,result
+            self.init_webdriver_opr(result)  # 此时function_name返回的是driver，此时实例化网页操作类
+            return isOk, '网页[' + url + ']打开成功'
+        return isOk, result
 
 
 if __name__ == '__main__':
